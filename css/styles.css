@@ -1,0 +1,64 @@
+body {
+  margin: 0;
+  padding: 0; }
+
+.wrapper {
+  height: 100vh;
+  background-color: tomato;
+  padding-top: 15vh;
+  font-family: sans-serif;
+  color: white; }
+
+h1 {
+  margin: 0;
+  text-align: center;
+  font-weight: normal;
+  font-size: 80px; }
+
+.game-view {
+  max-width: 1200px;
+  margin: 0 auto; }
+
+.word {
+  padding-top: 10vh;
+  font-size: 60px;
+  text-align: center; }
+
+.guess-input {
+  padding-top: 10vh;
+  width: 50%;
+  margin: 0 auto; }
+  .guess-input form {
+    display: block;
+    margin: 0 auto;
+    font-size: 0;
+    text-align: center; }
+  .guess-input input {
+    padding: 20px 10px;
+    font-size: 20px;
+    background-color: tomato;
+    color: white;
+    border: 1px solid white;
+    text-align: center; }
+    .guess-input input:focus {
+      outline: none; }
+  .guess-input input[name="guess-text"] {
+    width: 75px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px; }
+    .guess-input input[name="guess-text"]::-webkit-input-placeholder {
+      color: rgba(255, 255, 255, 0.5); }
+  .guess-input input[type="submit"] {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background-color: white;
+    color: tomato;
+    opacity: 1;
+    transition: all 200ms linear; }
+    .guess-input input[type="submit"]:active {
+      opacity: 0.85;
+      transition: opacity 200ms linear; }
+    .guess-input input[type="submit"]:hover {
+      opacity: 0.9; }
+
+/*# sourceMappingURL=styles.css.map */
