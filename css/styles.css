@@ -9,10 +9,12 @@ body {
   font-family: sans-serif;
   color: white; }
 
-h1 {
+h1, h2, h3 {
   margin: 0;
   text-align: center;
-  font-weight: normal;
+  font-weight: normal; }
+
+h1 {
   font-size: 80px; }
 
 .game-view {
@@ -60,5 +62,9 @@ h1 {
       transition: opacity 200ms linear; }
     .guess-input input[type="submit"]:hover {
       opacity: 0.9; }
+
+.guesses-left {
+  padding-top: 8vh;
+  text-align: center; }
 
 /*# sourceMappingURL=styles.css.map */
