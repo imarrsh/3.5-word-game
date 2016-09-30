@@ -21,7 +21,7 @@ h1 {
   max-width: 1200px;
   margin: 0 auto; }
 
-.word {
+.word-holder {
   padding-top: 10vh;
   font-size: 60px;
   text-align: center; }
@@ -46,6 +46,7 @@ h1 {
       outline: none; }
   .guess-input input[name="guess-text"] {
     width: 75px;
+    text-transform: uppercase;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px; }
     .guess-input input[name="guess-text"]::-webkit-input-placeholder {
