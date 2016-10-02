@@ -4,10 +4,11 @@ body {
 
 .wrapper {
   height: 100vh;
-  background-color: tomato;
+  background-color: #252525;
   padding-top: 15vh;
   font-family: sans-serif;
-  color: white; }
+  color: white;
+  transition: all 200ms ease-in-out; }
 
 h1, h2, h3 {
   margin: 0;
@@ -38,7 +39,7 @@ h1 {
   .guess-input input {
     padding: 20px 10px;
     font-size: 20px;
-    background-color: tomato;
+    background-color: transparent;
     color: white;
     border: 1px solid white;
     text-align: center; }
