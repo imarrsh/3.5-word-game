@@ -38,7 +38,7 @@
   randomWord = pickRandomWord();
   randomWordArray = randomWord.split('');
 
-  guessTracker = [];
+  guessTracker = 0;
 
   console.log(randomWordArray);
 
@@ -75,14 +75,14 @@
     randomWordArray.forEach(function(letter, i){
       if (guess === letter){
         indices.push(i);
-        guessTracker.push(true)
+        guessTracker++
       }
     });
 
     updateStage(indices);
     console.log(indices, guessTracker);
 
-    if (guessTracker.length == randomWord.length){
+    if (guessTracker == randomWord.length){
       console.log('You Win!');
       var wrapper = document.getElementById('wrapper');
       wrapper.style.backgroundColor = 'forestgreen';
