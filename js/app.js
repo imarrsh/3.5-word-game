@@ -4,15 +4,24 @@
   // alert(commonWords);
 
   // create variables of the nodes we want to watch or change
-  var gameForm = document.getElementById('guess-form');
-  var wordHolder = document.getElementById('word-holder');
-  var guessText = document.getElementById('guess-text');
+  var gameForm = document.getElementById('guess-form'),
+      wordHolder = document.getElementById('word-holder'),
+      guessText = document.getElementById('guess-text'),
+      guessesLeftMsg = document.getElementById('guesses-left'),
+      wrapper = document.getElementById('wrapper'),
+      guessedLetters = document.getElementById('guessed-letters'),
+      submit = document.getElementById('submit');
+
+
 
   var textSlots, // spans in the word holder
       randomWord, // will be filled with random word
       randomWordArray, // the array version of randomWord
       wrongGuesses, // store invalid guesses
-      guessTracker; // starts as empty array indicating the correct guessed
+      allGuesses, // store all guesses
+      correctGuessTracker,  // counter for correct guesses
+      totalGuesses, // will store the max allowed guesses
+      guessesLeft; // will start at totalGuesses value and decrement on wrong guesses
 
   // ################################
   // Word Randomizer
@@ -38,7 +47,11 @@
   randomWord = pickRandomWord();
   randomWordArray = randomWord.split('');
 
-  guessTracker = 0;
+  correctGuessTracker = 0;
+  totalGuesses = Math.floor(randomWord.length * 1.5);
+  guessesLeft = totalGuesses;
+  wrongGuesses = [];
+  allGuesses = [];
 
   console.log(randomWordArray);
 
@@ -54,6 +67,8 @@
       wordHolder.innerHTML += '<span> _ </span>';
     });
 
+    guessesLeftMsg.innerHTML = '<h3>You have ' + guessesLeft + ' tries. Good Luck!</h3>';
+
   }
 
   function updateStage(idx){
@@ -61,33 +76,100 @@
       textSlots[item].textContent = randomWordArray[item].toUpperCase();
     });
   }
+  // changes the guess button to a Play Again button
+  function guessBtnToPlayAgain(){
+    submit.value = 'Play Again';
+    guessText.style.display = 'none';
+    submit.classList.add('game-btn-finish');
+  }
+
+  function showGuesses(letter){
+    if(wrongGuesses.length > 0){
+      guessedLetters.innerHTML = '<h3>Invalid guesses:</h3>';
+    }
+    // var guessedLetter = document.createElement('span');
+    // var guessedLetterEl = guessedLetter.innerHTML = guessedLetter;
+    wrongGuesses.forEach(function(item){
+      var guessedLetter = document.createElement('span');
+      var itemText = document.createTextNode(' ' +item.toUpperCase() + ' ');
+      guessedLetter.appendChild(itemText);
+
+      guessedLetters.appendChild(guessedLetter);
+    });
+  }
+
+  function gameLost(){
+    console.log('Better luck next time!');
+    textSlots.forEach(function(letter){
+      letter.textContent = '😭';
+    });
+    wrapper.style.backgroundColor = 'tomato';
+    guessText.setAttribute('disabled', true);
+    guessBtnToPlayAgain();
+  }
+
+  function gameWin(){
+    console.log('You Win!');
+    wrapper.style.backgroundColor = 'forestgreen';
+    guessBtnToPlayAgain();
+  }
 
   // check player input on submit event
   function guessCheck(e){
     e.preventDefault();
     // get the input value at submission
     var guess = guessText.value.toLowerCase();
-    guessText.value = '';
 
-    console.log('guess:', guess);
+    var isValidGuess = allGuesses.indexOf(guess) === -1; // true/false
 
-    var indices = [];
-    randomWordArray.forEach(function(letter, i){
-      if (guess === letter){
-        indices.push(i);
-        guessTracker++
+    if(isValidGuess){
+
+      allGuesses.push(guess);
+
+      console.log('guess:', guess);
+
+      // set up an array for matching correct guesses
+      var indices = [];
+      randomWordArray.forEach(function(letter, i){
+        if (guess === letter){
+          indices.push(i);
+          correctGuessTracker++;
+        }
+      });
+      // if guess is wrong, push the incorrect letter to
+      // the wrongGuesses array for tracking and decrenent
+      // guessesLeft counter
+      if(randomWord.indexOf(guess) === -1){
+        wrongGuesses.push(guess);
+        guessesLeft--;
+        guessesLeftMsg.innerHTML = '<h3>You have ' + guessesLeft + ' tries left!</h3>';
+        wordHolder.classList.add('wobble');
+
+        setTimeout(function(){
+          wordHolder.classList.remove('wobble');
+        }, 1000);
       }
-    });
 
-    updateStage(indices);
-    console.log(indices, guessTracker);
+      // check if winner or loser
+      if (correctGuessTracker == randomWord.length){
+        gameWin();
+      } else if (wrongGuesses.length == totalGuesses) {
+        gameLost();
+      }
 
-    if (guessTracker == randomWord.length){
-      console.log('You Win!');
-      var wrapper = document.getElementById('wrapper');
-      wrapper.style.backgroundColor = 'forestgreen';
+      showGuesses(guess);
+      updateStage(indices);
+      console.log(indices, correctGuessTracker, guessesLeft, wrongGuesses, allGuesses, isValidGuess);
     }
 
+    // clear the value of the field and refocus
+    guessText.value = '';
+    guessText.focus();
+
+  }
+
+  function resetGame(){
+    // do some things to reset the game
   }
 
   // call functions to start the game with a new word
